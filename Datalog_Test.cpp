@@ -1,6 +1,6 @@
 #include "DATALOG.h"
 #include "Timing.h"
- #include <unistd.h>
+#include <unistd.h>
 #include <math.h>
 DATALOG datalog;
 int main(int argc, char *argv[]){
@@ -38,5 +38,4 @@ int main(int argc, char *argv[]){
     count-=2;
     printf("The system recorded %d violations of the required sampling time\n", count);
     printf("Program Terminated.\n");
-    
 }
