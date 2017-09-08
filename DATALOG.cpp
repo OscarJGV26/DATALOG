@@ -1,7 +1,7 @@
 #include "DATALOG.h"
 using namespace std;
 void DATALOG::begin(){
-    printf("Initializing Data Logging\n");
+    printf("Initializing Data Logging...\n");
     myfile.open("/media/SD/example.txt");
     if(myfile.is_open()!=1){
         printf("File didnt open... Terminating program for safety.\n");
