@@ -3,34 +3,6 @@
  #include <unistd.h>
 #include <math.h>
 DATALOG datalog;
-static void handler(int sig, siginfo_t *si, void *uc)
-{
-    clock_gettime(CLOCK_REALTIME,&real_time_clock);
-    rt_clock=real_time_clock.tv_sec+(double)real_time_clock.tv_nsec/1000000000.0f;
-    real_period=rt_clock-timer;
-    timer=rt_clock;
-    execute=1;
-}
-void timer_init(double sample_time){
-    sa.sa_flags = SA_SIGINFO;
-   sa.sa_sigaction = handler;
-   sigemptyset(&sa.sa_mask);
-   sigaction(SIG, &sa, NULL);
-   sigemptyset(&mask);
-   sigaddset(&mask, SIG);
-   sigprocmask(SIG_SETMASK, &mask, NULL);
-   sev.sigev_notify = SIGEV_SIGNAL;
-   sev.sigev_signo = SIG;
-   sev.sigev_value.sival_ptr = &timerid;
-   timer_create(CLOCKID, &sev, &timerid);
-   freq_nanosecs=(long long)(sample_time*1000000000);
-   its.it_value.tv_sec = freq_nanosecs / 1000000000;
-   its.it_value.tv_nsec = freq_nanosecs % 1000000000;
-   its.it_interval.tv_sec = its.it_value.tv_sec;
-   its.it_interval.tv_nsec = its.it_value.tv_nsec;
-   timer_settime(timerid, 0, &its, NULL);
-   sigprocmask(SIG_UNBLOCK, &mask, NULL);
-}
 int main(int argc, char *argv[]){
     datalog.begin();
     double amplitude,frequency,sampling_time, Time;
