@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <math.h>
 DATALOG datalog;
+
 int main(int argc, char *argv[]){
     datalog.begin();
     double amplitude,frequency,sampling_time, Time;
@@ -18,6 +19,9 @@ int main(int argc, char *argv[]){
     float array[10];
     int count=0;
     double sampling_time_precision=0.001;  
+    double writting_time=0;
+    double avg_writting_time=0;
+    double sum_writting_time=0;
     for(long i=0;i<iterations;i++){
         while(execute==0);
         test_signal=amplitude*sin(omega*i*sampling_time);
@@ -30,12 +34,20 @@ int main(int argc, char *argv[]){
             printf("Real Period is %10.10f\n",real_period);
             count++;
         }
+        clock_gettime(CLOCK_REALTIME,&real_time_clock_begin);
         datalog.write(array,array,array,array,array,array,array,array,array);
-        printf("Writing...\n");
+        clock_gettime(CLOCK_REALTIME,&real_time_clock_end);
+        rt_clock_begin=real_time_clock_begin.tv_sec+(double)real_time_clock_begin.tv_nsec/1000000000.0f;
+        rt_clock_end=real_time_clock_end.tv_sec+(double)real_time_clock_end.tv_nsec/1000000000.0f;
+        writting_time=rt_clock_end-rt_clock_begin;
+        sum_writting_time+=writting_time;
+        avg_writting_time=sum_writting_time/i;
+        printf("Writing...\r");
         sleep(1);
     }
     for(int i=0;i<100;i++)datalog.close();
-    count-=2;
+    count-=2;           //Remove first two violations
+    printf("The average writting time was %lf\n",avg_writting_time);
     printf("The system recorded %d violations of the required sampling time\n", count);
     printf("Program Terminated.\n");
 }
