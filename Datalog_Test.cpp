@@ -38,7 +38,7 @@ int main(int argc, char *argv[]){
     sscanf(argv[2],"%lf",&frequency);
     sscanf(argv[3],"%lf",&sampling_time);
     sscanf(argv[4],"%lf",&Time);
-    timer_init(sampling_time);
+    timer_begin(sampling_time);
     long iterations= (long) Time/sampling_time;
     double test_signal;
     double pi=3.141592653;
