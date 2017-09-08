@@ -49,6 +49,7 @@ void DATALOG::write(float imu_data[], float motors[],float references[],float ma
             myfile<<",";
         }
         myfile<<"\r\n";
+        myfile.flush();
     }
 }
 void DATALOG::open(){
