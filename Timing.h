@@ -12,8 +12,12 @@ timer_t timerid;
 struct sigevent sev;
 struct itimerspec its;
 struct timespec real_time_clock;
+struct timespec real_time_clock_begin;
+struct timespec real_time_clock_end;
 sigset_t mask;
 struct sigaction sa;
+double rt_clock_begin=0;
+double rt_clock_end=0;
 volatile double rt_clock=0;
 volatile double timer=0;
     static void handler(int sig, siginfo_t *si, void *uc){
